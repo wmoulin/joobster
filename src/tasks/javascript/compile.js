@@ -21,21 +21,20 @@ module.exports = class CompileJs extends Task {
     return () => {
       logger.debug("Lancement de la tache " + this.name + " (Transpilation JavaScript avec Babel).");
 
-      let gulpResult = gulp.src(this.defaultOption.srcFilter, {
+      let gulpStream = gulp.src(this.defaultOption.srcFilter, {
           base: this.defaultOption.base
-      });
+      })
       // Activation de la génération des sources maps
-      gulpResult = gulpResult.pipe(sourcemaps.init());
+      .pipe(sourcemaps.init());
       // Activation de la génération typeScript
-      gulpResult = gulpResult.pipe(babel(this.defaultOption.compile));
-      gulpResult.on("error", function (err) {
+      .pipe(babel(this.defaultOption.compile));
+      gulpStream.on("error", function (err) {
         logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
         logger.debug("Erreur : ", err);
       });
-      gulpResult = gulpResult.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder));
-      gulpResult = gulpResult.pipe(gulp.dest(this.defaultOption.outdir));
-      
-      return gulpResult;
+      return gulpStream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder))
+      .pipe(gulp.dest(this.defaultOption.outdir));
+
     };
 
   }
