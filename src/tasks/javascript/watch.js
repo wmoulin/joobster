@@ -16,7 +16,7 @@ module.exports = class WatchJs extends Task {
     this.name = Task.watchPrefixe + this.name;
     this.taskDepends = [];
     
-    this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
+    this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
     this.defaultOption.mapSrcFolder = this.defaultOption.outdirMap;
 
   }
