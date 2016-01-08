@@ -12,7 +12,7 @@ module.exports = class CompileJs extends Task {
     super(option);
     this.name = Task.cleanPrefixe + this.name;
 
-    this.defaultOption.distCleanFilters = [FileHelper.concatDirectory([this.defaultOption.outdir, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.outdir, this.defaultOption.outdirMap, this.defaultOption.dir])];
+    this.defaultOption.distCleanFilters = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.outdirMap, this.defaultOption.dir])];
   }
 
   task(gulp) {
