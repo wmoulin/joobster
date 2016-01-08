@@ -1,6 +1,8 @@
 "use strict";
 const _ = require("lodash");
 const logger = require("../../logger");
+const gulpHelper = require("../../helpers/gulp-helper");
+const FileHelper = require("../../helpers/file-helper");
 
 const presetsObject = {
   es2015: require("babel-preset-es2015"),
@@ -20,12 +22,12 @@ module.exports = class Task {
     Task.compilePrefixe = "compile:";
     Task.validatePrefixe = "validate:";
     Task.testPrefixe = "test:";
-    Task.testUnitairePrefixe = "testU:";
     Task.watchPrefixe = "watch:";
     
     this.taskDepends = [];
     
     this.defaultOption = { 
+      projectDir : "./",
       base : "src",
       baseTst : "tst",
       dir : "js",
@@ -53,6 +55,14 @@ module.exports = class Task {
       if (option.compile.presets) {
         this.defaultOption.compile.presets = mapOption(option.compile.presets, presetsObject) || this.defaultOption.compile.presets;
       }
+    }
+
+    if (gulpHelper.parameters.files) {
+      this.defaultOption.fileFilter = gulpHelper.parameters.files;
+    }
+    
+    if (gulpHelper.parameters.dir) {
+      this.defaultOption.projectDir = gulpHelper.parameters.dir;
     }
   }
 
