@@ -42,6 +42,9 @@ let builderDesc = fileHelper.loadJsonFile(fileHelper.checkFileExist(commander.di
 logger.info("Description du projet : ", projectDesc);
 logger.info("Description du builder : ", builderDesc);
 
+gulpHelper.parameters.files = commander.files;
+gulpHelper.parameters.dir = commander.dir;
+
 // chargement des taches, on exécute une fois que tout est chargé
 tasksLoader(gulp, builderDesc, function() {
   
