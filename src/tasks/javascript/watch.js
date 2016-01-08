@@ -27,27 +27,27 @@ module.exports = class WatchJs extends Task {
       logger.debug(this.defaultOption.srcFilter);
       logger.debug(this.defaultOption.base);
       
-      let gulpResult = gulp.src(this.defaultOption.srcFilter, {
+      gulp.src(this.defaultOption.srcFilter, {
             base: this.defaultOption.base
-      });
-
-      gulpResult = gulpResult.pipe(watch(this.defaultOption.srcFilter, {base: this.defaultOption.base},
+      })
+      .pipe(watch(this.defaultOption.srcFilter, {base: this.defaultOption.base},
         (watchEvent) => {
           logger.debug("File ", watchEvent.path, " state ", watchEvent.event || "init");
-        }));
-      gulpResult = gulpResult.pipe(foreach((stream, file) => {
+        }))
+      .pipe(foreach((stream, file) => {
         // Activation de la génération des sources maps
-        stream = stream.pipe(sourcemaps.init());
+        let streamWatch = stream.pipe(sourcemaps.init())
         // Activation de la transpilation JavaScript
-        stream = stream.pipe(babel(this.defaultOption.compile));
-        stream = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder));
-        stream = stream.pipe(gulp.dest(this.defaultOption.outdir));
-        return stream;
+        .pipe(babel(this.defaultOption.compile));
+        streamWatch.on("error", function (err) {
+          logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
+          logger.info("Erreur : ", err);
+        });
+        streamWatch = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder))
+        .pipe(gulp.dest(this.defaultOption.outdir));
+        return streamWatch;
       }));
-      gulpResult.on("error", function (err) {
-        logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
-        logger.info("Erreur : ", err);
-      });
+
     };
   }
 };
