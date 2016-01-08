@@ -1,7 +1,7 @@
 {
-  "name": "js-project-builder",
+  "name": "js-project-booster",
   "version": "1.0.0",
-  "description": "Helper pour la gestion des projets sous NodeJs",
+  "description": "Booster de projets JavaSript sous NodeJs/Gulp",
   "dependencies": {
     "babel-plugin-transform-decorators": "6.3.13",
     "babel-preset-es2015": "6.3.13",
@@ -30,8 +30,8 @@
     "tslint": "^3.2.1"
   },
   "bin": {
-    "jsprojectbuilder": "./src/builder.js",
-    "jsb": "./src/builder.js"
+    "jsprojectbooster": "./src/booster.js",
+    "jsb": "./src/booster.js"
   },
   "author": "wilfried Moulin"
 }
