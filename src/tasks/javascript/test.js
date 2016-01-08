@@ -15,8 +15,8 @@ module.exports = class TestJs extends Task {
     this.taskDepends = [Task.compilePrefixe + this.name]; // compilation Babel
     this.name = Task.testPrefixe + this.name;
 
-    this.defaultOption.tstFilter = FileHelper.concatDirectory([this.defaultOption.baseTst, this.defaultOption.dir, this.defaultOption.fileFilter]);
-    this.defaultOption.distJsFilter = FileHelper.concatDirectory([this.defaultOption.outdir, this.defaultOption.dir, this.defaultOption.fileFilter]);
+    this.defaultOption.tstFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst, this.defaultOption.dir, this.defaultOption.fileFilter]);
+    this.defaultOption.distJsFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir, this.defaultOption.fileFilter]);
   }
 
   task(gulp) {
@@ -52,5 +52,3 @@ module.exports = class TestJs extends Task {
     };
   }
 };
-
-
