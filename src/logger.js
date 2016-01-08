@@ -112,7 +112,7 @@ var stringifyObject = function(object) {
   }
 };
 
-Logger.level = LEVELS.ERROR;
+Logger.level = LEVELS.error;
 
 module.exports = Logger;
 module.exports.LEVELS = LEVELS;
