@@ -12,9 +12,9 @@ const tasksLoader = require("./tasks-loader");
 commander
     .version(require("../package.json").version)
     .usage("[options] <tasks ...>")
-    .option("-l --log <level>", "log level, /^(trace|debug|info|warning|error)$/i", "error")
+    .option("-l --log <level>", "log level, /^(info|debug|warning|error)$/i", "error")
     .option("-d --dir <directory>", "project directory", process.cwd())
-    .option("-f --files <glob files>", "filtre des fichiers pour la tâche à lancer (syntaxe node-glob)", "")
+    .option("-f --files <glob files>", "fichiers à lancer (syntaxe node-glob)", "")
     .parse(process.argv);
 
 logger.setLogLevel(logger.getLogLevelFromString(commander.log))
@@ -39,8 +39,9 @@ gulp.on("error", function (e) {
 let projectDesc = fileHelper.loadJsonFile(fileHelper.checkFileExist(commander.dir, "package.json", true));
 let builderDesc = fileHelper.loadJsonFile(fileHelper.checkFileExist(commander.dir, "builder.json", false));
 
-logger.trace("Description du projet : ", projectDesc);
-logger.trace("Description du builder : ", builderDesc);
+logger.info("Description du projet : ", projectDesc);
+logger.info("Description du builder : ", builderDesc);
+
 gulpHelper.parameters.files = commander.files;
 gulpHelper.parameters.dir = commander.dir;
 
@@ -49,6 +50,7 @@ tasksLoader(gulp, builderDesc, function() {
   
   // vérification de l'existence des tâches à exécuter
   var tasks = (commander.args.length ? commander.args : ["default"]);
+  gulpHelper.parameters.filesParameter = commander.files;
   gulpHelper.checkTasksExist(gulp, tasks);
 
   require("run-sequence").apply(gulp, tasks.concat(

@@ -41,7 +41,7 @@ module.exports = class WatchJs extends Task {
         .pipe(babel(this.defaultOption.compile));
         streamWatch.on("error", function (err) {
           logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
-          logger.info("Erreur : ", err);
+          logger.debug("Erreur : ", err);
         });
         streamWatch = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder))
         .pipe(gulp.dest(this.defaultOption.outdir));

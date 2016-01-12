@@ -9,7 +9,7 @@ class GulpHelper {
   * @param {Array<String>} tasks listes des taches à vérifier
   */
   static checkTasksExist(gulp, tasks) {
-    logger.info("tasks : ", tasks);
+    logger.trace("tasks : ", tasks);
     tasks.forEach(function(task) {
       if (!gulp.hasTask(task)) {
         logger.error("La tâche Gulp '" + task + "' n'existe pas !");
@@ -22,7 +22,7 @@ class GulpHelper {
   
   static loadTask(gulp, taskInst) {
     logger.debug("Chargement de la tache : " + taskInst.name);
-    logger.info("Tache : ", taskInst);
+    logger.trace("Tache : ", taskInst);
     
     if (!taskInst.name) {
       logger.error("Cette tâche Gulp ne posséde aucun nom !");
@@ -43,3 +43,6 @@ class GulpHelper {
 
 GulpHelper.parameters = {};
 module.exports = GulpHelper;
+
+
+

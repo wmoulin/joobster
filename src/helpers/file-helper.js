@@ -13,7 +13,7 @@ module.exports = class FileHelper {
   * @param {Boolean} mandatory le fichier est obligatoire (stop le processus)
   */
   static checkFileExist(dir, fileName, mandatory) {
-    logger.info("dir : ", dir, " fileName : ", fileName);
+    logger.trace("dir : ", dir, " fileName : ", fileName);
     var completFilePath = path.join(dir, fileName);
     if (!fs.existsSync(completFilePath)) {
       if (!mandatory) return undefined;
@@ -30,7 +30,7 @@ module.exports = class FileHelper {
   * @return {String} tous les répertoires concaténé avec le séparateur
   */
   static concatDirectory(dirs) {
-    logger.info("dirs : ", dirs);
+    logger.trace("dirs : ", dirs);
     if (!_.isArray(dirs)) {
       logger.error("Le paramàtre doit être un tableau de string (dirs=" + dirs + ")");
       process.exit(1);
@@ -47,7 +47,7 @@ module.exports = class FileHelper {
   * @return {Object} l'objet Json dans le fichier
   */
   static loadJsonFile(jsonFile) {
-    logger.info("load jsonFile : ", jsonFile);
+    logger.trace("load jsonFile : ", jsonFile);
     if (fs.existsSync(jsonFile)) {
       return require(jsonFile);
     }

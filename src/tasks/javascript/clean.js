@@ -12,15 +12,15 @@ module.exports = class CompileJs extends Task {
     super(option);
     this.name = Task.cleanPrefixe + this.name;
 
-    this.defaultOption.distCleanFilters = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.outdirMap, this.defaultOption.dir])];
+    this.defaultOption.distCleanFilters = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.outdirMap, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.tmpDir, "**"])];
   }
 
   task(gulp) {
     return () => {
-      logger.debug("Suppression de la transpilation JavaScript");
-      logger.info(this.defaultOption.distCleanFilters);
+      logger.info("Suppression de la transpilation JavaScript");
+      logger.debug(this.defaultOption.distCleanFilters);
       
-      return del(this.defaultOption.distCleanFilters);
+      return del(this.defaultOption.distCleanFilters, {force: true});
     };
   }
 };

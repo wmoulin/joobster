@@ -22,9 +22,9 @@ module.exports = class TestJs extends Task {
     return () => {
       logger.debug("Validation JavaScript");
 
-      gulp.src(this.defaultOption.srcFilter)
-      .pipe(esLint(esLintConf))
-      .pipe(esLint.format());
+      let gulpResult = gulp.src(this.defaultOption.srcFilter);
+      gulpResult = gulpResult.pipe(esLint(esLintConf));
+      gulpResult = gulpResult.pipe(esLint.format());
     };
   }
 };

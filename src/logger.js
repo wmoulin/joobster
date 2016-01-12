@@ -6,10 +6,11 @@ var os = require("os");
 
 
 const LEVELS = {
-  info    : { id: "info", label : "<info>", value : 10, style: chalk.white},
+  trace   : { id: "trace", label : "<trace>", value : 10, style: chalk.white},
   debug   : { id: "debug", label : "<debug>", value : 20, style: chalk.green},
-  warning : { id: "warning", label : "<warning>", value : 30, style: chalk.yellow},
-  error   : { id: "error", label : "<error>", value : 40, style: chalk.bold.red}
+  info    : { id: "info", label : "<info>", value : 30, style: chalk.cyan},
+  warning : { id: "warning", label : "<warning>", value : 40, style: chalk.yellow},
+  error   : { id: "error", label : "<error>", value : 50, style: chalk.bold.red}
 };
   
 class Logger {
@@ -39,11 +40,11 @@ class Logger {
   }
 
   /**
-  * Log un message en info
+  * Log un message en trace
   */
-  static info() {
-    if (Logger.level.value <= LEVELS.info.value) {
-      gutil.log(LEVELS.info.style(LEVELS.info.label), LEVELS.info.style(parseLogArgs.apply(null, arguments)));
+  static trace() {
+    if (Logger.level.value <= LEVELS.trace.value) {
+      gutil.log(LEVELS.trace.style(LEVELS.trace.label), LEVELS.trace.style(parseLogArgs.apply(null, arguments)));
     }
   }
 
@@ -53,6 +54,15 @@ class Logger {
   static debug() {
     if (Logger.level.value <= LEVELS.debug.value) {
       gutil.log(LEVELS.debug.style(LEVELS.debug.label), LEVELS.debug.style(parseLogArgs.apply(null, arguments)));
+    }
+  }
+
+  /**
+  * Log un message en info
+  */
+  static info() {
+    if (Logger.level.value <= LEVELS.info.value) {
+      gutil.log(LEVELS.info.style(LEVELS.info.label), LEVELS.info.style(parseLogArgs.apply(null, arguments)));
     }
   }
 

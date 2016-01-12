@@ -6,11 +6,17 @@ const FileHelper = require("../../helpers/file-helper");
 
 const presetsObject = {
   es2015: require("babel-preset-es2015"),
-  "stage-0": require("babel-preset-stage-0")
+  "stage-0": require("babel-preset-stage-0"),
+  "stage-1": require("babel-preset-stage-1")
 };
 
 const pluginsObject = {
-  "transform-decorators": require("babel-plugin-transform-decorators")
+  "add-module-exports": require("babel-plugin-add-module-exports"),
+  "transform-es2015-modules-commonjs": require("babel-plugin-transform-es2015-modules-commonjs"),
+  "transform-class-properties": require("babel-plugin-transform-class-properties"),
+  "transform-decorators": require("babel-plugin-transform-decorators"),
+  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy"),
+  "syntax-decorators": require("babel-plugin-syntax-decorators")
 }
   
 module.exports = class Task {
@@ -22,6 +28,7 @@ module.exports = class Task {
     Task.compilePrefixe = "compile:";
     Task.validatePrefixe = "validate:";
     Task.testPrefixe = "test:";
+    Task.prepareTestPrefixe = "prepare-test:";
     Task.watchPrefixe = "watch:";
     
     this.taskDepends = [];
@@ -62,7 +69,7 @@ module.exports = class Task {
     }
     
     if (gulpHelper.parameters.dir) {
-      this.defaultOption.projectDir = gulpHelper.parameters.dir;
+      this.defaultOption.projectDir = FileHelper.concatDirectory([gulpHelper.parameters.dir, this.defaultOption.projectDir]);
     }
   }
 
