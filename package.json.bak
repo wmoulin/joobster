@@ -16,7 +16,7 @@
     "commander": "2.9.0",
     "del": "2.2.0",
     "gulp": "3.9.0",
-    "gulp-babel": "^6.1.1",
+    "gulp-babel": "6.1.1",
     "gulp-eslint": "1.1.1",
     "gulp-foreach": "0.1.0",
     "gulp-inject-string": "1.1.0",
@@ -31,7 +31,7 @@
     "gulp-util": "3.0.7",
     "gulp-watch": "4.3.5",
     "lodash": "3.10.1",
-    "npm": "^3.5.2",
+    "npm": "3.5.2",
     "run-sequence": "1.1.5",
     "tslint": "^3.2.1"
   },

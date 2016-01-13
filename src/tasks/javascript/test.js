@@ -42,7 +42,7 @@ module.exports = class TestJs extends Task {
         let stream = gulp.src( this.defaultOption.tstFilter , {base: this.defaultOption.tstFolder})
           // remplacement des require("src/...") par require("dist/...")
           .pipe(replace(/( *require\()(\"|\')([\.\/]+)\/src\/([^\"\']+[\"\']\))/g, "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
-          .pipe(replace(/( *import +[^ ]+ +from +)(\"|\')([\.\/]+)\/src\/([^\"\']+[\"\'])/g, "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
+          .pipe(replace(/( *import.*(?! from ).* +from +)(\"|\')([\.\/]+)\/src\/([^\"\']+[\"\'])/g, "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
           .pipe(babel(this.defaultOption.compile));
         stream.on("error", function (err) {
           logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
