@@ -36,8 +36,8 @@
     "tslint": "^3.2.1"
   },
   "bin": {
-    "jsprojectbooster": "./src/booster.js",
-    "jsb": "./src/booster.js"
+    "joobster": "./src/booster.js",
+    "jsr": "./src/booster.js"
   },
   "author": "wilfried Moulin"
 }
