@@ -1,5 +1,5 @@
 {
-  "name": "js-project-booster",
+  "name": "joobster",
   "version": "1.0.0",
   "description": "Booster de projets JavaSript sous NodeJs/Gulp",
   "dependencies": {
