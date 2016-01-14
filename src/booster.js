@@ -37,7 +37,7 @@ gulp.on("error", function (e) {
 });
 
 let projectDesc = fileHelper.loadJsonFile(fileHelper.checkFileExist(commander.dir, "package.json", true));
-let builderDesc = fileHelper.loadJsonFile(fileHelper.checkFileExist(commander.dir, "builder.json", false));
+let builderDesc = fileHelper.loadJsonFile(fileHelper.checkFileExist(commander.dir, "joobster.json", false));
 
 logger.trace("Description du projet : ", projectDesc);
 logger.trace("Description du builder : ", builderDesc);
