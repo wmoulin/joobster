@@ -33,6 +33,7 @@ module.exports = class CompileJs extends Task {
       stream.on("error", function (err) {
         logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
         logger.debug("Erreur : ", err);
+        process.exit(1);
       });
       stream = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder, {
         sourceMappingURL: (file) => {
