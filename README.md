@@ -54,26 +54,13 @@ Il va fournir des tâches se rapprochant de la philosophie `maven` pour simplifi
 
 | Tâche         | Rôle                                                          | Dépendances |
 | ------------- | ------------------------------------------------------------- | ----------- |
-| clean | supprime les dépendances applicatives (répertoire node_modules/???) et de test (répertoire node_modules/???)| |
-| clean-dep | supprime les dépendances applicatives (répertoire node_modules/???) et de test (répertoire node_modules/???)| |
-| check-dep | vérifie la conformité des versions des dépendances applicatives déclarées | |
-| install | Installe le projet et tous ces dépendances | check-dep |
 
 == Les tâches de test
 
 == Les tâches de compilation
-.Description des tâches de compilation
-[width="75%"]
-|=============================
-| Tâche | Rôle | Dépendances |
-| compile-ts | supprime les dépendances applicatives (répertoire node_modules/???) et de test (répertoire node_modules/???)| |
-| compile-js | vérifie la conformité des versions des dépendances applicatives déclarées | |
-|==========================
 
 == Les tâches de qualimétrie
 
 == Lancement de l'application sous node
-
-== Lancement des tests
 
 == Construction des livrables
