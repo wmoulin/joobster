@@ -11,12 +11,9 @@ const presetsObject = {
 };
 
 const pluginsObject = {
-  "add-module-exports": require("babel-plugin-add-module-exports"),
   "transform-es2015-modules-commonjs": require("babel-plugin-transform-es2015-modules-commonjs"),
-  "transform-class-properties": require("babel-plugin-transform-class-properties"),
   "transform-decorators": require("babel-plugin-transform-decorators"),
-  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy"),
-  "syntax-decorators": require("babel-plugin-syntax-decorators")
+  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy")
 }
   
 module.exports = class Task {
