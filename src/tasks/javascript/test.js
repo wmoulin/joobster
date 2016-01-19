@@ -17,6 +17,7 @@ module.exports = class TestJs extends Task {
     this.name = Task.testPrefixe + this.name;
 
     this.defaultOption.tstFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst, this.defaultOption.dir, this.defaultOption.fileFilter]);
+    this.defaultOption.tstOtherFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst, this.defaultOption.dir, "**/*"]), "!" + this.defaultOption.fileFilter];
     this.defaultOption.tstFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst]);
     this.defaultOption.distJsFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir, this.defaultOption.fileFilter]);
     this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir]);
@@ -39,28 +40,34 @@ module.exports = class TestJs extends Task {
       .pipe(istanbul({includeUntested: true}))
       .pipe(istanbul.hookRequire())
       .on( 'finish', () => {
-        let stream = gulp.src( this.defaultOption.tstFilter , {base: this.defaultOption.tstFolder})
-          // remplacement des require("src/...") par require("dist/...")
-          .pipe(replace(/( *require\()(\"|\')([\.\/]+)\/src\/([^\"\']+[\"\']\))/g, "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
-          .pipe(replace(/( *import.*(?! from ).* +from +)(\"|\')([\.\/]+)\/src\/([^\"\']+[\"\'])/g, "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
-          .pipe(babel(this.defaultOption.compile));
-        stream.on("error", function (err) {
-          logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
-          logger.debug("Erreur : ", err);
-        });
-        stream.pipe(gulp.dest(this.defaultOption.tmpFolder))
-        .pipe(mocha({reporter: 'spec'}));
-        stream.on("error", function (err) {
-          logger.error("Erreur '", err.name, "' lors du plugin '", err.plugin, "' message '", err.message, "'");
-          logger.debug("Erreur : ", err);
-        });
-        stream.pipe( istanbul.writeReports(
-          {
-            dir: FileHelper.concatDirectory([this.defaultOption.tmpFolder,"coverage"]),
-            reporters: ["lcov", "text", "text-summary", "cobertura"],
-            reportOpts: {dir: FileHelper.concatDirectory([this.defaultOption.tmpFolder,"coverage"])}
-          }
-        ) );
+
+        // copie des fichiers de dépendances de test (json...)
+        gulp.src( this.defaultOption.tstOtherFilter , {base: this.defaultOption.tstFolder})
+        .pipe(gulp.dest(this.defaultOption.tmpFolder))
+        .on( 'finish', () => {
+          let stream = gulp.src( this.defaultOption.tstFilter , {base: this.defaultOption.tstFolder})
+            // remplacement des require("src/...") par require("dist/...")
+            .pipe(replace(/( *require\()(\"|\')([\.\/]+)\/src\/([^\"\']+[\"\']\))/g, "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
+            .pipe(replace(/( *import.*(?! from ).* +from +)(\"|\')([\.\/]+)\/src\/([^\"\']+[\"\'])/g, "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
+            .pipe(babel(this.defaultOption.compile));
+          stream.on("error", function (err) {
+            logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
+            logger.debug("Erreur : ", err);
+          });
+          stream.pipe(gulp.dest(this.defaultOption.tmpFolder))
+          .pipe(mocha({reporter: 'spec'}));
+          stream.on("error", function (err) {
+            logger.error("Erreur '", err.name, "' lors du plugin '", err.plugin, "' message '", err.message, "'");
+            logger.debug("Erreur : ", err);
+          });
+          stream.pipe( istanbul.writeReports(
+            {
+              dir: FileHelper.concatDirectory([this.defaultOption.tmpFolder,"coverage"]),
+              reporters: ["lcov", "text", "text-summary", "cobertura"],
+              reportOpts: {dir: FileHelper.concatDirectory([this.defaultOption.tmpFolder,"coverage"])}
+            }
+          ) );
+        } );
       } );
     };
   }
