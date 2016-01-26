@@ -20,7 +20,7 @@ module.exports = class TestJs extends Task {
 
   task(gulp) {
     return () => {
-      logger.debug("Validation JavaScript");
+      logger.info("Validation JavaScript");
 
       let gulpResult = gulp.src(this.defaultOption.srcFilter);
       gulpResult = gulpResult.pipe(esLint(esLintConf));

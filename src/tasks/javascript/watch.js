@@ -15,7 +15,7 @@ module.exports = class WatchJs extends Task {
     super(option);
     this.name = Task.watchPrefixe + this.name;
     this.taskDepends = [];
-    
+
     this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
     this.defaultOption.mapSrcFolder = this.defaultOption.outdirMap;
 
@@ -23,31 +23,44 @@ module.exports = class WatchJs extends Task {
 
   task(gulp) {
     return () => {
-      logger.debug("Activation de watch JavaScript pour transpilation avec Babel");
+      logger.info("Activation de watch JavaScript pour transpilation avec Babel");
       logger.debug(this.defaultOption.srcFilter);
       logger.debug(this.defaultOption.base);
-      
+
       gulp.src(this.defaultOption.srcFilter, {
             base: this.defaultOption.base
       })
       .pipe(watch(this.defaultOption.srcFilter, {base: this.defaultOption.base},
         (watchEvent) => {
-          logger.debug("File ", watchEvent.path, " state ", watchEvent.event || "init");
+          logger.info("File ", watchEvent.path, " state ", watchEvent.event || "init");
+          logger.debug("watchEvent ", watchEvent.path);
+
+          compile.bind(this)(gulp, gulp.src(watchEvent.path, {
+                base: watchEvent.base
+          }));
+
         }))
       .pipe(foreach((stream, file) => {
-        // Activation de la génération des sources maps
-        let streamWatch = stream.pipe(sourcemaps.init())
-        // Activation de la transpilation JavaScript
-        .pipe(babel(this.defaultOption.compile));
-        streamWatch.on("error", function (err) {
-          logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
-          logger.debug("Erreur : ", err);
-        });
-        streamWatch = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder))
-        .pipe(gulp.dest(this.defaultOption.outdir));
-        return streamWatch;
-      }));
+        return compile.bind(this)(gulp, stream);
+      })).on("error", function (err) {
+        logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
+        logger.debug("Erreur : ", err);
+      });
 
     };
   }
 };
+
+var compile = function(gulp, stream) {
+  // Activation de la génération des sources maps
+  let streamWatch = stream.pipe(sourcemaps.init())
+  // Activation de la transpilation JavaScript
+  .pipe(babel(this.defaultOption.compile));
+  streamWatch.on("error", function (err) {
+    logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
+    logger.debug("Erreur : ", err);
+  });
+  streamWatch = streamWatch.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder))
+  .pipe(gulp.dest(this.defaultOption.outdir));
+  return streamWatch;
+}
