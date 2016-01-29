@@ -13,9 +13,10 @@ const presetsObject = {
 const pluginsObject = {
   "transform-es2015-modules-commonjs": require("babel-plugin-transform-es2015-modules-commonjs"),
   "transform-decorators": require("babel-plugin-transform-decorators"),
-  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy")
+  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy"),
+  "transform-es2015-modules-systemjs": require("babel-plugin-transform-es2015-modules-systemjs")
 }
-  
+
 module.exports = class Task {
 
 
@@ -27,51 +28,65 @@ module.exports = class Task {
     Task.testPrefixe = "test:";
     Task.prepareTestPrefixe = "prepare-test:";
     Task.watchPrefixe = "watch:";
-    
+
     this.taskDepends = [];
-    
-    this.defaultOption = { 
-      projectDir : "./",
-      base : "src",
-      baseTst : "tst",
-      dir : "js",
-      fileFilter : "**/*.js",
-      outdir : "dist",
-      tmpDir : "tmp",
+
+    this.defaultOption = {
+      projectDir: "./",
+      base: "src",
+      baseTst: "tst",
+      dir: "js",
+      fileFilter: "**/*.js",
+      outdir: "dist",
+      tmpDir: "tmp",
       outdirMap: "maps",
-      compile : {
-          presets: [presetsObject["es2015"]],
+      compile: {
+        presets: [presetsObject["es2015"]],
       }
     };
-    
-    if (option && option.compile) {
-      _.assign(this.defaultOption.compile, option.compile, (defaultValue, newValue, key, object, source) => {
-        if (key && (key === "presets"|| key === "plugins")) {
-          return undefined;
-        } else {
-          return newValue || defaultValue;
-        }
-      });
-      
-      if (option.compile.plugins) {
-        this.defaultOption.compile.plugins = mapOption(option.compile.plugins, pluginsObject) || this.defaultOption.compile.plugins;
-      }
-      if (option.compile.presets) {
-        this.defaultOption.compile.presets = mapOption(option.compile.presets, presetsObject) || this.defaultOption.compile.presets;
-      }
-    }
 
-    if (gulpHelper.parameters.files) {
-      this.defaultOption.fileFilter = gulpHelper.parameters.files;
-    }
-    
-    if (gulpHelper.parameters.dir) {
-      this.defaultOption.projectDir = FileHelper.concatDirectory([gulpHelper.parameters.dir, this.defaultOption.projectDir]);
+    if (option) {
+
+      if (option.compile) {
+        _.assign(this.defaultOption.compile, option.compile, (defaultValue, newValue, key, object, source) => {
+          if (key && (key === "presets" || key === "plugins")) {
+            return undefined;
+          } else {
+            return newValue || defaultValue;
+          }
+
+        });
+
+        if (option.compile.plugins) {
+          this.defaultOption.compile.plugins = mapOption(option.compile.plugins, pluginsObject) || this.defaultOption.compile.plugins;
+        }
+        if (option.compile.presets) {
+          this.defaultOption.compile.presets = mapOption(option.compile.presets, presetsObject) || this.defaultOption.compile.presets;
+        }
+      }
+
+      _.assign(this.defaultOption, option, (defaultValue, newValue, key, object, source) => {
+        if (key && (key === "compile")) {
+          return defaultValue;
+        } else {
+          logger.debug("newValue ", key, " : ", typeof(newValue) != "undefined" ? "defined" : "undefined")
+          return typeof(newValue) != "undefined" ? newValue : defaultValue;
+        }
+
+      });
+
+      if (gulpHelper.parameters.files) {
+        this.defaultOption.fileFilter = gulpHelper.parameters.files;
+      }
+
+      if (gulpHelper.parameters.dir) {
+        this.defaultOption.projectDir = FileHelper.concatDirectory([gulpHelper.parameters.dir, this.defaultOption.projectDir]);
+      }
     }
   }
 
 };
-            
+
 var mapOption = function(options, mapOptionsObject) {
   if (_.isArray(options)) {
     let presetsTmp = [];
