@@ -28,6 +28,7 @@ module.exports = class Task {
     Task.testPrefixe = "test:";
     Task.prepareTestPrefixe = "prepare-test:";
     Task.watchPrefixe = "watch:";
+    Task.packagePrefixe = "package:";
 
     this.taskDepends = [];
 
@@ -39,6 +40,7 @@ module.exports = class Task {
       fileFilter: "**/*.js",
       outdir: "dist",
       tmpDir: "tmp",
+      activeMap: true,
       outdirMap: "maps",
       compile: {
         presets: [presetsObject["es2015"]],

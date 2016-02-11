@@ -25,7 +25,7 @@ module.exports = class CompileJs extends Task {
   }
 
   task(gulp) {
-    return () => {
+    return (done) => {
       logger.info("Lancement de la tache " + this.name + " (Transpilation JavaScript avec Babel).");
 
       // copie des autres fichiers (html, json...)
@@ -33,28 +33,32 @@ module.exports = class CompileJs extends Task {
       .pipe(gulp.dest(this.defaultOption.outSrcFolder));
       streamOther.on( 'finish', () => {
 
-        let stream = gulp.src(this.defaultOption.srcFilter, { base: this.defaultOption.srcFolder })
-        // Activation de la génération des sources maps
-        .pipe(sourcemaps.init())
+        let stream = gulp.src(this.defaultOption.srcFilter, { base: this.defaultOption.srcFolder });
+        if (this.defaultOption.actineMap) {
+          // Activation de la génération des sources maps
+          stream = stream.pipe(sourcemaps.init());
+        }
         // Activation de la génération typeScript
-        .pipe(babel(this.defaultOption.compile));
+        stream = stream.pipe(babel(this.defaultOption.compile));
         stream.on("error", function (err) {
           logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
           logger.debug("Erreur : ", err);
           process.exit(1);
         });
-        stream = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder, {
-          sourceMappingURL: (file) => {
-            // this is how you get the relative path from a vinyl file instance
-            let test = path.relative(path.dirname(file.path), file.base);
+        if (this.defaultOption.actineMap) {
+          stream = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder, {
+            sourceMappingURL: (file) => {
+              // this is how you get the relative path from a vinyl file instance
+              let test = path.relative(path.dirname(file.path), file.base);
 
-            return path.join(path.relative(path.dirname(file.path), file.base), this.defaultOption.outdirMap, file.relative) + '.map';
-          }}))
-        .pipe(gulp.dest(this.defaultOption.outSrcFolder));
-
-        return stream;
+              return path.join(path.relative(path.dirname(file.path), file.base), this.defaultOption.outdirMap, file.relative) + '.map';
+            }}))
+        }
+        stream = stream.pipe(gulp.dest(this.defaultOption.outSrcFolder));
+        stream.on( 'finish', () => {
+          done();
+        });
       });
-      return streamOther;
     }
   }
 
