@@ -12,8 +12,10 @@ module.exports = class TestJs extends Task {
     this.taskDepends = [Task.compilePrefixe + this.name]; // compilation Babel des tests
     this.name = Task.packagePrefixe + this.name;
 
-    this.defaultOption.packageFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, "package.json"]);
-    this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir]);
+    this.defaultOption.packageFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, "*.*"]),
+                                        "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "*.gitignore"]),
+                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "joobster.json"])];
+    this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir]);
     this.defaultOption.srcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir]);
   }
 
@@ -24,11 +26,11 @@ module.exports = class TestJs extends Task {
 
       // copie du fichier package.json
       gulp.src(this.defaultOption.packageFilter, {base: this.defaultOption.srcFolder})
-      .pipe(replace(new RegExp("(\"|\')([\.\/]+)\/" + this.defaultOption.base + "\/" + this.defaultOption.dir + "\/([^\"\']+[\"\'])", "g"), "$1$2/$3"))
+      .pipe(replace(new RegExp("(\"|\')([\.\/]+)\/" + this.defaultOption.base + "\/([^\"\']+[\"\'])", "g"), "$1$2/$3"))
       .pipe(gulp.dest(this.defaultOption.distFolder))
       .on( 'finish', () => {
         logger.info("finish Package JavaScript");
-        } );
+      });
     };
   }
 };
