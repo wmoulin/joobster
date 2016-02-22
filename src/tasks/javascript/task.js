@@ -71,22 +71,25 @@ module.exports = class Task {
         if (key && (key === "compile")) {
           return defaultValue;
         } else {
-          logger.debug("newValue ", key, " : ", typeof(newValue) != "undefined" ? "defined" : "undefined")
           return typeof(newValue) != "undefined" ? newValue : defaultValue;
         }
 
       });
 
-      if (gulpHelper.parameters.files) {
-        this.defaultOption.fileFilter = gulpHelper.parameters.files;
-      }
-
-      if (gulpHelper.parameters.dir) {
-        this.defaultOption.projectDir = FileHelper.concatDirectory([gulpHelper.parameters.dir, this.defaultOption.projectDir]);
-      }
     }
+
+    if (gulpHelper.parameters.dir) {
+      this.defaultOption.projectDir = FileHelper.concatDirectory([gulpHelper.parameters.dir, this.defaultOption.projectDir]);
+    }
+
   }
 
+
+  updateWithParameter() {
+    if (gulpHelper.parameters.task.indexOf(this.name) > -1 && gulpHelper.parameters.files) {
+      this.defaultOption.fileFilter = gulpHelper.parameters.files;
+    }
+  }
 };
 
 var mapOption = function(options, mapOptionsObject) {

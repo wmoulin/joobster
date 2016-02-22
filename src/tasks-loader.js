@@ -4,12 +4,12 @@ const path = require("path");
 const gulpHelper = require("./helpers/gulp-helper");
 
 module.exports = function (gulp, builderDesc, done) {
-    
+
   logger.info("Chargement des tâches.");
 
   loadAllTasks(gulp, builderDesc, "./tasks/javascript", "javascript");
   loadAllTasks(gulp, builderDesc, "./tasks/typescript", "typescript");
-  
+
   done();
 
 };

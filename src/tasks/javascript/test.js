@@ -15,12 +15,15 @@ module.exports = class TestJs extends Task {
     this.taskDepends = [Task.compilePrefixe + this.name]; // compilation Babel des tests
     this.name = Task.testPrefixe + this.name;
 
-    this.defaultOption.tstFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst, this.defaultOption.dir, this.defaultOption.fileFilter]);
-    this.defaultOption.tstOtherFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst, this.defaultOption.dir, "**/*"]), "!" + this.defaultOption.fileFilter];
-    this.defaultOption.tstFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst]);
     this.defaultOption.distJsFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir, this.defaultOption.fileFilter]);
     this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir]);
     this.defaultOption.tmpFolder = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.tmpDir]);
+
+    super.updateWithParameter();
+
+    this.defaultOption.tstFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst, this.defaultOption.dir, this.defaultOption.fileFilter]);
+    this.defaultOption.tstOtherFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst, this.defaultOption.dir, "**/*"]), "!" + this.defaultOption.fileFilter];
+    this.defaultOption.tstFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.baseTst]);
   }
 
   task(gulp) {
@@ -28,11 +31,6 @@ module.exports = class TestJs extends Task {
       logger.info("Test JavaScript");
       logger.debug(this.defaultOption.tstFilter);
       logger.debug(this.defaultOption.distJsFilter);
-
-/*      gulp.src(this.defaultOption.tstFilter);
-      .pipe(changeRequired);
-      .pipe(gulp.dest("tmp/js"));
-      .pipe(mocha({reporter: "spec"}));*/
 
       gulp.src(this.defaultOption.distJsFilter, {base: this.defaultOption.distFolder})
       // Instrumentation du code

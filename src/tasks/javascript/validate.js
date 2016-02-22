@@ -11,7 +11,8 @@ module.exports = class TestJs extends Task {
   constructor(option) {
     super(option);
     this.name = Task.validatePrefixe + this.name;
-
+    super.updateWithParameter();
+    
     this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
     if (option && option.validate) {
       _.merge(esLintConf, option.validate);

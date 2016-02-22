@@ -43,10 +43,11 @@ logger.trace("Description du projet : ", projectDesc);
 logger.trace("Description du builder : ", builderDesc);
 gulpHelper.parameters.files = commander.files;
 gulpHelper.parameters.dir = commander.dir;
+gulpHelper.parameters.task = commander.args;
 
 // chargement des taches, on exécute une fois que tout est chargé
 tasksLoader(gulp, builderDesc, function() {
-  
+
   // vérification de l'existence des tâches à exécuter
   var tasks = (commander.args.length ? commander.args : ["default"]);
   gulpHelper.checkTasksExist(gulp, tasks);
@@ -60,9 +61,5 @@ tasksLoader(gulp, builderDesc, function() {
           }
       }
   ));
-  
+
 });
-
-
-
-

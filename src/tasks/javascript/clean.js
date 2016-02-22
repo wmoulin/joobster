@@ -11,6 +11,7 @@ module.exports = class CompileJs extends Task {
   constructor(option) {
     super(option);
     this.name = Task.cleanPrefixe + this.name;
+    super.updateWithParameter();
 
     this.defaultOption.distCleanFilters = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.outdirMap, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.tmpDir, "**"])];
   }
@@ -19,7 +20,7 @@ module.exports = class CompileJs extends Task {
     return () => {
       logger.info("Suppression de la transpilation JavaScript");
       logger.debug(this.defaultOption.distCleanFilters);
-      
+
       return del(this.defaultOption.distCleanFilters, {force: true});
     };
   }

@@ -11,6 +11,7 @@ module.exports = class TestJs extends Task {
     super(option);
     this.taskDepends = [Task.compilePrefixe + this.name]; // compilation Babel des tests
     this.name = Task.packagePrefixe + this.name;
+    super.updateWithParameter();
 
     this.defaultOption.packageFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, "*.*"]),
                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "*.gitignore"]),
