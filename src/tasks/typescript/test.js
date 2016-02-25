@@ -4,7 +4,6 @@ const logger = require("../../logger");
 const _ = require("lodash");
 const FileHelper = require("../../helpers/file-helper");
 const mocha = require('gulp-mocha');
-const inject = require('gulp-inject-string');
 const istanbul = require('gulp-istanbul');
 const gulpTypescript = require("gulp-typescript");
 const replace = require('gulp-replace');
@@ -23,7 +22,7 @@ module.exports = class TestJs extends Task {
   task(gulp) {
     return () => {
       logger.debug("Test TypeScript");
-      
+
       let stream = gulp.src(this.defaultOption.distTsFilter, {base: this.defaultOption.outdir})
       // Instrumentation du code
       .pipe(istanbul({includeUntested: true}))
@@ -48,5 +47,3 @@ module.exports = class TestJs extends Task {
     };
   }
 };
-
-
