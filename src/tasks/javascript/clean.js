@@ -1,9 +1,7 @@
 "use strict";
 const Task = require("./task");
 const logger = require("../../logger");
-const _ = require("lodash");
 const del = require('del');
-const watch = require('gulp-watch');
 const FileHelper = require("../../helpers/file-helper");
 
 module.exports = class CompileJs extends Task {

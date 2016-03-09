@@ -29,6 +29,7 @@ module.exports = class Task {
     Task.prepareTestPrefixe = "prepare-test:";
     Task.watchPrefixe = "watch:";
     Task.packagePrefixe = "package:";
+    Task.docPrefixe = "doc:";
 
     this.taskDepends = [];
 
@@ -39,6 +40,7 @@ module.exports = class Task {
       dir: "js",
       fileFilter: "**/*.js",
       outdir: "dist",
+      docDir: "doc",
       tmpDir: "tmp",
       activeMap: true,
       outdirMap: "maps",
