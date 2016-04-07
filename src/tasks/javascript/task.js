@@ -30,6 +30,7 @@ module.exports = class Task {
     Task.watchPrefixe = "watch:";
     Task.packagePrefixe = "package:";
     Task.docPrefixe = "doc:";
+    Task.publishPrefixe = "publish:";
 
     this.taskDepends = [];
 

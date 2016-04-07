@@ -4,29 +4,33 @@ const logger = require("../../logger");
 const del = require('del');
 const FileHelper = require("../../helpers/file-helper");
 const jsdoc = require("gulp-jsdoc3");
+const npm = require("npm");
 
 module.exports = class CompileJs extends Task {
 
   constructor(option) {
     super(option);
-    this.name = Task.docPrefixe + this.name;
+    this.taskDepends = [Task.packagePrefixe + this.name];
+    this.name = Task.publishPrefixe + this.name;
     super.updateWithParameter();
 
-    this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
-    this.defaultOption.docFilter = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.docDir, "**"]);
-    this.defaultOption.docFolder = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.docDir]);
+    this.defaultOption.outSrcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.outdir]);
 
   }
 
   task(gulp) {
-    return () => {
-      logger.info("génération de la documentation JavaScript");
+    return (done) => {
+      logger.info("Publication du module JavaScript");
       logger.debug(this.defaultOption);
 
-      del([this.defaultOption.docFilter], {force: true})
-      .on( 'finish', () => {
-        return gulp.src(this.defaultOption.srcFilter)
-        .pipe(jsdoc({opts: { destination: this.defaultOption.docFolder}}));
+      npm.load({}, (error) => {
+        if (error) done(error);
+        npm.config.set("force", "true");
+        npm.config.set("access", "public");
+        npm.commands.publish([this.defaultOption.outSrcFolder], (error) => {
+          done(error);
+        });
+
       });
     };
   }
