@@ -13,7 +13,7 @@ const presetsObject = {
 const pluginsObject = {
   "transform-es2015-modules-commonjs": require("babel-plugin-transform-es2015-modules-commonjs"),
   "transform-decorators": require("babel-plugin-transform-decorators"),
-  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy"),
+  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy").default,
   "transform-es2015-modules-systemjs": require("babel-plugin-transform-es2015-modules-systemjs")
 }
 
