@@ -4,7 +4,6 @@ const logger = require("../../logger");
 const del = require('del');
 const FileHelper = require("../../helpers/file-helper");
 const jsdoc = require("gulp-jsdoc3");
-const esdoc = require("gulp-esdoc");
 
 module.exports = class CompileJs extends Task {
 
@@ -25,14 +24,14 @@ module.exports = class CompileJs extends Task {
       logger.info("génération de la documentation JavaScript");
       logger.debug(this.defaultOption);
 
-//      del([this.defaultOption.docFilter], {force: true})
-//      .on( 'finish', () => {
+      del([this.defaultOption.docFilter], {force: true})
+      .on( 'finish', () => {
         gulp.src(this.defaultOption.srcFilter)
         .pipe(jsdoc({opts: { destination: this.defaultOption.docFolder}}, () => {}))
         .on('finish', () => {
           done();
         });
-//      });
+      });
     };
   }
 };
