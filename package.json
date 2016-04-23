@@ -1,6 +1,6 @@
 {
   "name": "joobster",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Booster de projets JavaSript sous NodeJs/Gulp",
   "repository": {
     "type": "git",
