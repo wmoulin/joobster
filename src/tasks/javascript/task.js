@@ -29,6 +29,7 @@ module.exports = class Task {
     Task.prepareTestPrefixe = "prepare-test:";
     Task.watchPrefixe = "watch:";
     Task.packagePrefixe = "package:";
+    Task.webpackagePrefixe = "webpackage:";
     Task.docPrefixe = "doc:";
     Task.publishPrefixe = "publish:";
 
