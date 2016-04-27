@@ -6,7 +6,7 @@ const FileHelper = require("../../helpers/file-helper");
 const replace = require('gulp-replace');
 const webpack = require('webpack-stream');
 
-module.exports = class TestJs extends Task {
+module.exports = class WebpackageJs extends Task {
 
   constructor(option) {
     super(option);
@@ -22,7 +22,7 @@ module.exports = class TestJs extends Task {
   task(gulp) {
     return () => {
       logger.info("Web Package JavaScript", FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir]));
-      logger.debug(this.defaultOption);
+      logger.debug("option", this.defaultOption);
 
       // copie du fichier package.json
       gulp.src(this.defaultOption.packageFilter, {base: this.defaultOption.srcFolder})

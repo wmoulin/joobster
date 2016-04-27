@@ -7,12 +7,51 @@ const _ = require("lodash");
 const FileHelper = require("../../helpers/file-helper");
 const path = require('path');
 
+
+const presetsObject = {
+  es2015: require("babel-preset-es2015"),
+  "stage-0": require("babel-preset-stage-0"),
+  "stage-1": require("babel-preset-stage-1")
+};
+
+const pluginsObject = {
+  "transform-es2015-modules-commonjs": require("babel-plugin-transform-es2015-modules-commonjs"),
+  "transform-decorators": require("babel-plugin-transform-decorators"),
+  "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy").default,
+  "transform-es2015-modules-systemjs": require("babel-plugin-transform-es2015-modules-systemjs")
+}
+
 module.exports = class CompileJs extends Task {
 
   constructor(option) {
+
     super(option);
     this.taskDepends = [Task.cleanPrefixe + this.name];
     this.name = Task.compilePrefixe + this.name;
+
+    this.defaultOption .compile = {
+      presets: [presetsObject["es2015"]],
+    };
+
+    if (option.compile) {
+      _.assignInWith(this.defaultOption.compile, option.compile, (defaultValue, newValue, key, object, source) => {
+        if (key && (key === "presets" || key === "plugins")) {
+          return undefined;
+        } else {
+          return newValue || defaultValue;
+        }
+
+      });
+
+      if (option.compile.plugins) {
+        this.defaultOption.compile.plugins = mapOption(option.compile.plugins, pluginsObject) || this.defaultOption.compile.plugins;
+      }
+      if (option.compile.presets) {
+        this.defaultOption.compile.presets = mapOption(option.compile.presets, presetsObject) || this.defaultOption.compile.presets;
+      }
+    }
+
+
     super.updateWithParameter();
 
     this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
@@ -21,13 +60,13 @@ module.exports = class CompileJs extends Task {
     this.defaultOption.mapSrcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.outdir,this.defaultOption.outdirMap]);
     this.defaultOption.outSrcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.outdir]);
 
-    logger.debug("option", this.defaultOption);
 
   }
 
   task(gulp) {
     return (done) => {
       logger.info("Lancement de la tache " + this.name + " (Transpilation JavaScript avec Babel).");
+      logger.debug("option", this.defaultOption);
 
       // copie des autres fichiers (html, json...)
       let streamOther = gulp.src(this.defaultOption.srcOtherFilter , { base: this.defaultOption.srcFolder })
@@ -35,7 +74,7 @@ module.exports = class CompileJs extends Task {
       streamOther.on( 'finish', () => {
 
         let stream = gulp.src(this.defaultOption.srcFilter, { base: this.defaultOption.srcFolder });
-        if (this.defaultOption.actineMap) {
+        if (this.defaultOption.activeMap) {
           // Activation de la génération des sources maps
           stream = stream.pipe(sourcemaps.init());
         }
@@ -64,3 +103,16 @@ module.exports = class CompileJs extends Task {
   }
 
 };
+
+
+var mapOption = function(options, mapOptionsObject) {
+  if (_.isArray(options)) {
+    let presetsTmp = [];
+    options.forEach((plugin) => {
+      if (mapOptionsObject[plugin]) {
+        presetsTmp.push(mapOptionsObject[plugin]);
+      }
+    });
+    return presetsTmp;
+  }
+}

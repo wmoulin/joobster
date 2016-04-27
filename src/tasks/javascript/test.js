@@ -29,8 +29,7 @@ module.exports = class TestJs extends Task {
   task(gulp) {
     return () => {
       logger.info("Test JavaScript");
-      logger.debug(this.defaultOption.tstFilter);
-      logger.debug(this.defaultOption.distJsFilter);
+      logger.debug("option", this.defaultOption);
 
       gulp.src(this.defaultOption.distJsFilter, {base: this.defaultOption.distFolder})
       // Instrumentation du code

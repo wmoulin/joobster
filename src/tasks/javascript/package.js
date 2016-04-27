@@ -5,7 +5,7 @@ const _ = require("lodash");
 const FileHelper = require("../../helpers/file-helper");
 const replace = require('gulp-replace');
 
-module.exports = class TestJs extends Task {
+module.exports = class PackageJs extends Task {
 
   constructor(option) {
     super(option);
@@ -23,7 +23,7 @@ module.exports = class TestJs extends Task {
   task(gulp) {
     return () => {
       logger.info("Package JavaScript", FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir]));
-      logger.debug(this.defaultOption.distFolder);
+      logger.debug("option", this.defaultOption);
 
       // copie du fichier package.json
       gulp.src(this.defaultOption.packageFilter, {base: this.defaultOption.srcFolder})

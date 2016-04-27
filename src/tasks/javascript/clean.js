@@ -4,7 +4,7 @@ const logger = require("../../logger");
 const del = require('del');
 const FileHelper = require("../../helpers/file-helper");
 
-module.exports = class CompileJs extends Task {
+module.exports = class CleanJs extends Task {
 
   constructor(option) {
     super(option);
@@ -17,7 +17,7 @@ module.exports = class CompileJs extends Task {
   task(gulp) {
     return () => {
       logger.info("Suppression de la transpilation JavaScript");
-      logger.debug(this.defaultOption.distCleanFilters);
+      logger.debug("option", this.defaultOption);
 
       return del(this.defaultOption.distCleanFilters, {force: true});
     };

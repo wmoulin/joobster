@@ -6,7 +6,7 @@ const FileHelper = require("../../helpers/file-helper");
 const jsdoc = require("gulp-jsdoc3");
 const npm = require("npm");
 
-module.exports = class CompileJs extends Task {
+module.exports = class PublishJs extends Task {
 
   constructor(option) {
     super(option);
@@ -21,7 +21,7 @@ module.exports = class CompileJs extends Task {
   task(gulp) {
     return (done) => {
       logger.info("Publication du module JavaScript");
-      logger.debug(this.defaultOption);
+      logger.debug("option", this.defaultOption);
 
       npm.load({}, (error) => {
         if (error) done(error);

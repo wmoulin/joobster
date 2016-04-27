@@ -6,13 +6,13 @@ const esLint = require('gulp-eslint');
 const esLintConf = require('./conf/eslint.json');
 const _ = require("lodash");
 
-module.exports = class TestJs extends Task {
+module.exports = class ValidateJs extends Task {
 
   constructor(option) {
     super(option);
     this.name = Task.validatePrefixe + this.name;
     super.updateWithParameter();
-    
+
     this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
     if (option && option.validate) {
       _.merge(esLintConf, option.validate);

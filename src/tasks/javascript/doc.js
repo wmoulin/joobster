@@ -5,7 +5,7 @@ const del = require('del');
 const FileHelper = require("../../helpers/file-helper");
 const jsdoc = require("gulp-jsdoc3");
 
-module.exports = class CompileJs extends Task {
+module.exports = class DocJs extends Task {
 
   constructor(option) {
     super(option);
@@ -22,7 +22,7 @@ module.exports = class CompileJs extends Task {
   task(gulp) {
     return (done) => {
       logger.info("génération de la documentation JavaScript");
-      logger.debug(this.defaultOption);
+      logger.debug("option", this.defaultOption);
 
 //      del([this.defaultOption.docFilter], {force: true})
 //      .on( 'finish', () => {
