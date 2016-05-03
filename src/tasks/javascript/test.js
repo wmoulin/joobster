@@ -1,4 +1,5 @@
 "use strict";
+const CompileJs = require("./compile");
 const Task = require("./task");
 const logger = require("../../logger");
 const _ = require("lodash");
@@ -8,12 +9,12 @@ const istanbul = require('gulp-istanbul');
 const replace = require('gulp-replace');
 const babel = require("gulp-babel");
 
-module.exports = class TestJs extends Task {
+module.exports = class TestJs extends CompileJs {
 
   constructor(option) {
     super(option);
-    this.taskDepends = [Task.compilePrefixe + this.name]; // compilation Babel des tests
-    this.name = Task.testPrefixe + this.name;
+    this.taskDepends = [Task.compilePrefixe + Task.suffixe]; // compilation Babel des tests
+    this.name = Task.testPrefixe + Task.suffixe;
 
     this.defaultOption.distJsFilter = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir, this.defaultOption.fileFilter]);
     this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir]);

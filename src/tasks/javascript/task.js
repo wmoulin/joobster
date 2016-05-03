@@ -8,7 +8,7 @@ module.exports = class Task {
 
 
   constructor(option) {
-    this.name = "js";
+    Task.suffixe = "js";
     Task.cleanPrefixe = "clean:";
     Task.compilePrefixe = "compile:";
     Task.validatePrefixe = "validate:";
@@ -19,6 +19,8 @@ module.exports = class Task {
     Task.webpackagePrefixe = "webpackage:";
     Task.docPrefixe = "doc:";
     Task.publishPrefixe = "publish:";
+
+    this.name = Task.suffixe;
 
     this.taskDepends = [];
 
@@ -33,7 +35,10 @@ module.exports = class Task {
       tmpDir: "tmp",
       activeMap: true,
       outdirMap: "maps",
-      compile: {}
+      compile: {},
+      webpack: {
+        entry: "main.js"
+      }
     };
 
     if (option) {

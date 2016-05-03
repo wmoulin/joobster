@@ -14,9 +14,10 @@ module.exports = class WebpackageJs extends Task {
     this.name = Task.webpackagePrefixe + this.name;
     super.updateWithParameter();
 
-    this.defaultOption.packageFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.webpack.entry])];
+    this.defaultOption.packageFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir, this.defaultOption.webpack.entry])];
     this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, "web"]);
     this.defaultOption.srcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir]);
+    this.defaultOption.nodeModulesFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, "node_modules"]);
   }
 
   task(gulp) {
@@ -26,10 +27,10 @@ module.exports = class WebpackageJs extends Task {
 
       // copie du fichier package.json
       gulp.src(this.defaultOption.packageFilter, {base: this.defaultOption.srcFolder})
-      .pipe(webpack())
+      .pipe(webpack({resolveLoader: { root: this.defaultOption.nodeModulesFolder }, output: { filename: "bundle.js"}}))
       .pipe(gulp.dest(this.defaultOption.distFolder))
       .on( 'finish', () => {
-        logger.info("finish Package JavaScript");
+        logger.info("finish Web Package JavaScript");
       });
     };
   }

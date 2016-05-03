@@ -11,14 +11,16 @@ const path = require('path');
 const presetsObject = {
   es2015: require("babel-preset-es2015"),
   "stage-0": require("babel-preset-stage-0"),
-  "stage-1": require("babel-preset-stage-1")
+  "stage-1": require("babel-preset-stage-1"),
+  "react": require("babel-preset-react")
 };
 
 const pluginsObject = {
   "transform-es2015-modules-commonjs": require("babel-plugin-transform-es2015-modules-commonjs"),
   "transform-decorators": require("babel-plugin-transform-decorators"),
   "transform-decorators-legacy": require("babel-plugin-transform-decorators-legacy").default,
-  "transform-es2015-modules-systemjs": require("babel-plugin-transform-es2015-modules-systemjs")
+  "transform-es2015-modules-systemjs": require("babel-plugin-transform-es2015-modules-systemjs"),
+  "transform-class-properties": require("babel-plugin-transform-class-properties")
 }
 
 module.exports = class CompileJs extends Task {
