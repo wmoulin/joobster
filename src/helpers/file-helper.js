@@ -35,12 +35,12 @@ module.exports = class FileHelper {
       logger.error("Le paramàtre doit être un tableau de string (dirs=" + dirs + ")");
       process.exit(1);
     }
-    
+
     let pathDir = "";
     dirs.forEach(dir => {pathDir = path.join(pathDir, dir)});
     return pathDir;
   }
-  
+
   /**
   * Charge un fichier JSON
   * @param {String} chemin du fichier
@@ -52,7 +52,14 @@ module.exports = class FileHelper {
       return require(jsonFile);
     }
   }
+
+  /**
+  * extraction du nom de fichier
+  * @param {String} chemin du fichier
+  * @return {String} nom du fichier
+  */
+  static extractFileName(filePath) {
+    logger.trace("extract file name : ", filePath );
+    return path.basename(filePath);
+  }
 };
-
-
-

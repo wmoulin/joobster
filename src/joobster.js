@@ -46,7 +46,7 @@ gulpHelper.parameters.dir = commander.dir;
 gulpHelper.parameters.task = commander.args;
 
 // chargement des taches, on exécute une fois que tout est chargé
-tasksLoader(gulp, builderDesc, function() {
+tasksLoader(gulp, builderDesc, projectDesc, function() {
 
   // vérification de l'existence des tâches à exécuter
   var tasks = (commander.args.length ? commander.args : ["default"]);

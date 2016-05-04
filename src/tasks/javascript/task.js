@@ -36,9 +36,7 @@ module.exports = class Task {
       activeMap: true,
       outdirMap: "maps",
       compile: {},
-      webpack: {
-        entry: "main.js"
-      }
+      webpack: {}
     };
 
     if (option) {

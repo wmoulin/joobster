@@ -8,11 +8,17 @@ const webpack = require('webpack-stream');
 
 module.exports = class WebpackageJs extends Task {
 
-  constructor(option) {
+  constructor(option, moduleDesc) {
     super(option);
     this.taskDepends = [Task.packagePrefixe + this.name];
     this.name = Task.webpackagePrefixe + this.name;
     super.updateWithParameter();
+
+    if (!this.defaultOption.webpack || !this.defaultOption.webpack.entry){
+      this.defaultOption.webpack = {
+        entry: FileHelper.extractFileName(moduleDesc.main) || "main.js"
+      };
+    }
 
     this.defaultOption.packageFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, this.defaultOption.dir, this.defaultOption.webpack.entry])];
     this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir, "web"]);
