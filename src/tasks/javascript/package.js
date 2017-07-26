@@ -1,7 +1,7 @@
 "use strict";
+
 const Task = require("./task");
-const logger = require("../../logger");
-const _ = require("lodash");
+const Logger = require("../../logger");
 const FileHelper = require("../../helpers/file-helper");
 const replace = require('gulp-replace');
 
@@ -22,15 +22,15 @@ module.exports = class PackageJs extends Task {
 
   task(gulp) {
     return () => {
-      logger.info("Package JavaScript", FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir]));
-      logger.debug("option", this.defaultOption);
+      Logger.info("Package JavaScript", FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir]));
+      Logger.debug("option", this.defaultOption);
 
       // copie du fichier package.json
       gulp.src(this.defaultOption.packageFilter, {base: this.defaultOption.srcFolder})
       .pipe(replace(new RegExp("(\"|\')([\.\/]+)\/" + this.defaultOption.base + "\/([^\"\']+[\"\'])", "g"), "$1$2/$3"))
       .pipe(gulp.dest(this.defaultOption.distFolder))
       .on( 'finish', () => {
-        logger.info("finish Package JavaScript");
+        Logger.info("finish Package JavaScript");
       });
     };
   }

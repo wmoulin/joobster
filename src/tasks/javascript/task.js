@@ -1,7 +1,7 @@
 "use strict";
+
 const _ = require("lodash");
-const logger = require("../../logger");
-const gulpHelper = require("../../helpers/gulp-helper");
+const GulpHelper = require("../../helpers/gulp-helper");
 const FileHelper = require("../../helpers/file-helper");
 
 module.exports = class Task {
@@ -10,6 +10,7 @@ module.exports = class Task {
   constructor(option) {
     Task.suffixe = "js";
     Task.cleanPrefixe = "clean:";
+    Task.installPrefixe = "install:";
     Task.compilePrefixe = "compile:";
     Task.validatePrefixe = "validate:";
     Task.testPrefixe = "test:";
@@ -33,9 +34,9 @@ module.exports = class Task {
       outdir: "dist",
       docDir: "doc",
       tmpDir: "tmp",
-      activeMap: true,
       outdirMap: "maps",
-      compile: {},
+      compile: {
+      },
       webpack: {}
     };
 
@@ -50,16 +51,16 @@ module.exports = class Task {
 
     }
 
-    if (gulpHelper.parameters.dir) {
-      this.defaultOption.projectDir = FileHelper.concatDirectory([gulpHelper.parameters.dir, this.defaultOption.projectDir]);
+    if (GulpHelper.parameters.dir) {
+      this.defaultOption.projectDir = FileHelper.concatDirectory([GulpHelper.parameters.dir, this.defaultOption.projectDir]);
     }
 
   }
 
 
   updateWithParameter() {
-    if (gulpHelper.parameters.task.indexOf(this.name) > -1 && gulpHelper.parameters.files) {
-      this.defaultOption.fileFilter = gulpHelper.parameters.files;
+    if (GulpHelper.parameters.task.indexOf(this.name) > -1 && GulpHelper.parameters.files) {
+      this.defaultOption.fileFilter = GulpHelper.parameters.files;
     }
   }
 };

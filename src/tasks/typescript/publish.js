@@ -3,6 +3,7 @@
 const Task = require("./task");
 const Logger = require("../../logger");
 const FileHelper = require("../../helpers/file-helper");
+const jsdoc = require("gulp-jsdoc3");
 const npm = require("npm");
 
 module.exports = class PublishJs extends Task {
@@ -13,7 +14,7 @@ module.exports = class PublishJs extends Task {
     this.name = Task.publishPrefixe + this.name;
     super.updateWithParameter();
 
-    this.defaultOption.outSrcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.outdir]);
+    this.defaultOption.outSrcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir,this.defaultOption.outbase]);
 
   }
 

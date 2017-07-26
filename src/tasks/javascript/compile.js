@@ -1,6 +1,7 @@
 "use strict";
+
 const Task = require("./task");
-const logger = require("../../logger");
+const Logger = require("../../logger");
 const babel = require("gulp-babel");
 const sourcemaps = require("gulp-sourcemaps");
 const _ = require("lodash");
@@ -64,11 +65,11 @@ module.exports = class CompileJs extends Task {
 
 
   }
-
+  
   task(gulp) {
     return (done) => {
-      logger.info("Lancement de la tache " + this.name + " (Transpilation JavaScript avec Babel).");
-      logger.debug("option", this.defaultOption);
+      Logger.info("Lancement de la tache " + this.name + " (installation).");
+      Logger.debug("option", this.defaultOption);
 
       // copie des autres fichiers (html, json...)
       let streamOther = gulp.src(this.defaultOption.srcOtherFilter , { base: this.defaultOption.srcFolder })
@@ -76,18 +77,18 @@ module.exports = class CompileJs extends Task {
       streamOther.on( 'finish', () => {
 
         let stream = gulp.src(this.defaultOption.srcFilter, { base: this.defaultOption.srcFolder });
-        if (this.defaultOption.activeMap) {
+        if (this.defaultOption.compile.activeMap) {
           // Activation de la génération des sources maps
           stream = stream.pipe(sourcemaps.init());
         }
         // Activation de la génération typeScript
         stream = stream.pipe(babel(this.defaultOption.compile));
         stream.on("error", function (err) {
-          logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
-          logger.debug("Erreur : ", err);
+          Logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
+          Logger.debug("Erreur : ", err);
           process.exit(1);
         });
-        if (this.defaultOption.actineMap) {
+        if (this.defaultOption.compile.activeMap) {
           stream = stream.pipe(sourcemaps.write(this.defaultOption.mapSrcFolder, {
             sourceMappingURL: (file) => {
               // this is how you get the relative path from a vinyl file instance

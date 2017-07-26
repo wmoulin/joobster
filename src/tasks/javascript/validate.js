@@ -1,6 +1,7 @@
 "use strict";
+
 const Task = require("./task");
-const logger = require("../../logger");
+const Logger = require("../../logger");
 const FileHelper = require("../../helpers/file-helper");
 const esLint = require('gulp-eslint');
 const esLintConf = require('./conf/eslint.json');
@@ -21,7 +22,8 @@ module.exports = class ValidateJs extends Task {
 
   task(gulp) {
     return () => {
-      logger.info("Validation JavaScript");
+      Logger.info("Validation JavaScript");
+      Logger.debug("option", this.defaultOption);
 
       let gulpResult = gulp.src(this.defaultOption.srcFilter);
       gulpResult = gulpResult.pipe(esLint(esLintConf));

@@ -1,8 +1,8 @@
 "use strict";
+
 const CompileJs = require("./compile");
 const Task = require("./task");
-const logger = require("../../logger");
-const _ = require("lodash");
+const Logger = require("../../logger");
 const FileHelper = require("../../helpers/file-helper");
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
@@ -29,8 +29,8 @@ module.exports = class TestJs extends CompileJs {
 
   task(gulp) {
     return () => {
-      logger.info("Test JavaScript");
-      logger.debug("option", this.defaultOption);
+      Logger.info("Test JavaScript");
+      Logger.debug("option", this.defaultOption);
 
       gulp.src(this.defaultOption.distJsFilter, {base: this.defaultOption.distFolder})
       // Instrumentation du code
@@ -48,14 +48,14 @@ module.exports = class TestJs extends CompileJs {
             .pipe(replace(new RegExp("( *import.*(?! from ).* +from +)(\"|\')([\.\/]+)\/" + this.defaultOption.base + "\/([^\"\']+[\"\'])", "g"), "$1$2$3/"+ this.defaultOption.outdir +"/$4"))
             .pipe(babel(this.defaultOption.compile));
           stream.on("error", function (err) {
-            logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
-            logger.debug("Erreur : ", err);
+            Logger.error("Erreur '", err.name, "' dans le fichier '", err.fileName, "' ligne <", (err.loc && err.loc.line) || "unknow"  , "> colonne <", (err.loc && err.loc.column) || "unknow" , ">.");
+            Logger.debug("Erreur : ", err);
           });
           stream = stream.pipe(gulp.dest(this.defaultOption.tmpFolder))
           .pipe(mocha({reporter: 'spec'}));
           stream.on("error", function (err) {
-            logger.error("Erreur '", err.name, "' lors du plugin '", err.plugin, "' message '", err.message, "'");
-            logger.debug("Erreur : ", err);
+            Logger.error("Erreur '", err.name, "' lors du plugin '", err.plugin, "' message '", err.message, "'");
+            Logger.debug("Erreur : ", err);
           });
           stream.pipe( istanbul.writeReports(
             {

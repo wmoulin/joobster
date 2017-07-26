@@ -1,13 +1,9 @@
 "use strict";
-const Task = require("./task");
-const logger = require("../../logger");
-const gulpTypescript = require("gulp-typescript");
-const sourcemaps = require("gulp-sourcemaps");
-const _ = require("lodash");
-const watch = require('gulp-watch');
-const FileHelper = require("../../helpers/file-helper");
-const foreach = require('gulp-foreach');
 
+const Task = require("./task");
+const Logger = require("../../logger");
+const watch = require("gulp-watch");
+const FileHelper = require("../../helpers/file-helper");
 
 module.exports = class WatchJs extends Task {
 
@@ -24,13 +20,14 @@ module.exports = class WatchJs extends Task {
 
   task(gulp) {
     return () => {
-      logger.debug("Activation de watch TypeScript pour transpilation");
+      Logger.info("Activation de watch TypeScript pour transpilation");
+      Logger.debug("option", this.defaultOption);      
 
       gulp.watch(this.defaultOption.srcFilter, {
-            base: this.defaultOption.base
+          base: FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir])
       }, this.watchTaskExec)
-      .on('change', function(watchEvent) {
-        logger.debug("File ", watchEvent.path, " state ", watchEvent.type || "init");
+      .on("change", function(watchEvent) {
+        Logger.debug("File ", watchEvent.path, " state ", watchEvent.type || "init");
       });
     };
   }

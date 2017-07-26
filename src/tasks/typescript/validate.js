@@ -1,10 +1,9 @@
 "use strict";
 const Task = require("./task");
-const logger = require("../../logger");
+const Logger = require("../../logger");
 const FileHelper = require("../../helpers/file-helper");
-const tsLint = require('gulp-tslint');
-const tsLintConf = require('./conf/tslint.json');
-const _ = require("lodash");
+const GulpHelper = require("../../helpers/gulp-helper");
+const tsLint = require("gulp-tslint");
 
 module.exports = class TestJs extends Task {
 
@@ -13,17 +12,16 @@ module.exports = class TestJs extends Task {
     this.name = Task.validatePrefixe + this.name;
 
     this.defaultOption.srcFilter = FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir, this.defaultOption.fileFilter]);
-    if (option && option.validate) {
-      _.merge(esLintConf, option.validate);
-    }
+    this.defaultOption.tsLintConf = FileHelper.loadJsonFile(FileHelper.concatDirectory([GulpHelper.parameters.dir, "tslint.json"])) || require("./conf/tslint.json");
   }
 
   task(gulp) {
     return () => {
-      logger.debug("Validation TypeScript");
+      Logger.info("Validation TypeScript");
+      Logger.debug("option", this.defaultOption);
 
       gulp.src(this.defaultOption.srcFilter)
-      .pipe(tsLint(tsLintConf))
+      .pipe(tsLint(this.defaultOption.tsLintConf))
       .pipe(tsLint.report("prose", {emitError: false}));
     };
   }

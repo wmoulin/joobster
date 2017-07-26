@@ -1,6 +1,6 @@
 "use strict";
+
 const _ = require("lodash");
-const logger = require("../../logger");
 const gulpHelper = require("../../helpers/gulp-helper");
 
 module.exports = class Task {
@@ -11,28 +11,30 @@ module.exports = class Task {
     Task.compilePrefixe = "compile:";
     Task.validatePrefixe = "validate:";
     Task.testPrefixe = "test:";
+    Task.testRemapPrefixe = "test-remap:";
+    Task.prepareTestPrefixe = "prepare-test:";
     Task.watchPrefixe = "watch:";
+    Task.packagePrefixe = "package:";
+    Task.webpackagePrefixe = "webpackage:";
+    Task.docPrefixe = "doc:";
+    Task.publishPrefixe = "publish:";
 
     this.taskDepends = [];
 
     this.defaultOption = {
+      projectDir: "./",
       base : "src",
-      baseTst : "tst",
+      tstbase : "tst",
+      docbase: "doc",
       dir : "ts",
-      fileFilter : "**/*.ts",
-      outdir : "dist",
+      fileFilter : "**/*.{ts,tsx}",
+      outbase : "dist",
+      outdir : "js",
+      definitionDir : "definition",
       tmpDir : "tmp",
       outdirMap: "maps",
-      compile : {
-        target: "ES5",
-        module: "commonjs",
-        declaration: true,
-        sortOutput: true,
-        noExternalResolve: true,
-        jsx: 'react',
-        moduleResolution: 'classic',
-        experimentalDecorators: true
-      }
+      compile: {},
+      webpack: {}
     };
 
     if (option && option.compile) {

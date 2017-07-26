@@ -1,9 +1,7 @@
 "use strict";
 const Task = require("./task");
-const logger = require("../../logger");
-const _ = require("lodash");
-const del = require('del');
-const watch = require('gulp-watch');
+const Logger = require("../../logger");
+const del = require("del");
 const FileHelper = require("../../helpers/file-helper");
 
 module.exports = class CompileJs extends Task {
@@ -12,13 +10,13 @@ module.exports = class CompileJs extends Task {
     super(option);
     this.name = Task.cleanPrefixe + this.name;
 
-    this.defaultOption.distCleanFilters = [FileHelper.concatDirectory([this.defaultOption.outdir, this.defaultOption.dir]), FileHelper.concatDirectory([this.defaultOption.outdir, this.defaultOption.outdirMap, this.defaultOption.dir])];
+    this.defaultOption.distCleanFilters = [this.defaultOption.outbase, this.defaultOption.tmpDir, this.defaultOption.docbase];
   }
 
   task(gulp) {
     return () => {
-      logger.debug("Suppression de la transpilation TypeScript");
-      logger.info(this.defaultOption.distCleanFilters);
+      Logger.info("Suppression de la transpilation TypeScript");
+      Logger.debug("option", this.defaultOption);
       
       return del(this.defaultOption.distCleanFilters);
     };

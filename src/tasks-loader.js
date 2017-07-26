@@ -20,7 +20,7 @@ function loadAllTasks(gulp, builderDesc, projectDesc, tasksDirPath, keyConfig) {
     if(path.extname(file) === ".js") {
        //do something
       let Task = require(path.join(relativeTasksDirPath, file));
-      let task = new Task(builderDesc && builderDesc[keyConfig] ? builderDesc[keyConfig] : undefined, projectDesc);
+      let task = new Task(builderDesc && builderDesc[keyConfig] ? builderDesc[keyConfig] : {}, projectDesc);
       gulpHelper.loadTask(gulp, task);
     }
   });

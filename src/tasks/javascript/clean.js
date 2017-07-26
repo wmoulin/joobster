@@ -1,6 +1,7 @@
 "use strict";
+
 const Task = require("./task");
-const logger = require("../../logger");
+const Logger = require("../../logger");
 const del = require('del');
 const FileHelper = require("../../helpers/file-helper");
 
@@ -16,8 +17,8 @@ module.exports = class CleanJs extends Task {
 
   task(gulp) {
     return () => {
-      logger.info("Suppression de la transpilation JavaScript");
-      logger.debug("option", this.defaultOption);
+      Logger.info("Suppression de la transpilation JavaScript");
+      Logger.debug("option", this.defaultOption);
 
       return del(this.defaultOption.distCleanFilters, {force: true});
     };

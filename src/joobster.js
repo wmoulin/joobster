@@ -2,7 +2,7 @@
 "use strict";
 
 const logger = require("./logger");
-const commander = require("commander"); //Gestionnaire de ligne de commandes
+const commander = require("commander"); // Gestionnaire de ligne de commandes
 const npm = require("npm");
 const gulp = require("gulp");
 const gulpHelper = require("./helpers/gulp-helper");
