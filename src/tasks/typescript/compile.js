@@ -36,7 +36,7 @@ module.exports = class CompileJs extends Task {
           base: FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir])
       });
       // Activation de la génération des sources maps
-      if (this.defaultOption.compile.activeMap) {
+      if (this.defaultOption.compile && this.defaultOption.compile.activeMap) {
         tsResult = tsResult.pipe(sourcemaps.init());
       }
       // Activation de la génération typeScript
@@ -46,7 +46,7 @@ module.exports = class CompileJs extends Task {
       });
 
       let jsStream = tsResult.js;
-      if (this.defaultOption.compile.activeMap) {
+      if (this.defaultOption.compile && this.defaultOption.compile.activeMap) {
         jsStream = jsStream
             .pipe(sourcemaps.write(FileHelper.concatDirectory(["..", this.defaultOption.mapSrcFolder]), {sourceRoot: FileHelper.concatDirectory(["../../",this.defaultOption.base, this.defaultOption.dir])}));
       }

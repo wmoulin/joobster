@@ -42,7 +42,7 @@ module.exports = class TestJs extends Task {
       .on( "finish", () => {
 
         // copie des fichiers de dépendances de test (json...)
-        gulp.src( this.defaultOption.tstOtherFilter , {base: this.defaultOption.tstFolder})
+        gulp.src( this.defaultOption.tstOtherFilter , {base: this.defaultOption.tstbase})
         .pipe(gulp.dest(this.defaultOption.tmpFolder))
         .on( "finish", () => {
           let tsProject = gulpTypescript.createProject(FileHelper.concatDirectory([GulpHelper.parameters.dir, "tsconfig.json"]), {
@@ -62,7 +62,7 @@ module.exports = class TestJs extends Task {
 
           let jsStream = tsResult.js
           // remplacement des require("src/...") par require("dist/...")
-          .pipe(replace(/(require\()(\"|\')([\.\/]+)\/src\/ts\/([^\"\']*[\"\']\))/, "$1$2$3/" + this.defaultOption.outbase + "/" + this.defaultOption.outdir + "/$4"))
+          .pipe(replace(/(require\()(\"|\')([\.\/]+)\/src\/ts\/([^\"\']*[\"\']\))/g, "$1$2$3/" + this.defaultOption.outbase + "/" + this.defaultOption.outdir + "/$4"))
           .pipe(replace(new RegExp("( *import.*(?! from ).* +from +)(\"|\')([\.\/]+)\/" + this.defaultOption.base + "\/" + this.defaultOption.dir + "\/([^\"\']+[\"\'])", "g"), "$1$2$3/"+ this.defaultOption.outbase + "/" + this.defaultOption.outdir +"/$4"))
           .pipe(gulp.dest(this.defaultOption.tmpFolder))
           // Lancement des tests

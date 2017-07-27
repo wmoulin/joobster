@@ -30,7 +30,6 @@ module.exports = class TestRemapJs extends Task {
 
       return gulp.src(FileHelper.concatDirectory([this.defaultOption.tmpDir, "coverage", "coverage-final.json"]))
       .pipe(remapIstanbul({
-        fail: true,
         reports: {
           'json': FileHelper.concatDirectory([this.defaultOption.tmpDir, "coverage", "coverage_remap.json"]),
           'text': FileHelper.concatDirectory([this.defaultOption.tmpDir, "coverage", "coverage_remap.txt"]),

@@ -38,7 +38,7 @@ module.exports = class Task {
     };
 
     if (option && option.compile) {
-      _.assign(this.defaultOption.compile, option.compile);
+      this.defaultOption.compile = _.assign(this.defaultOption.compile || {}, option.compile);
     }
   }
 
