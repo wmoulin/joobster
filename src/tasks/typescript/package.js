@@ -6,7 +6,7 @@ const FileHelper = require("../../helpers/file-helper");
 const replace = require("gulp-replace");
 const del = require("del");
 
-module.exports = class PackageJs extends Task {
+module.exports = class PackageTs extends Task {
 
   constructor(option) {
     super(option);

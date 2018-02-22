@@ -8,7 +8,7 @@ const merge = require("merge2");
 const FileHelper = require("../../helpers/file-helper");
 const GulpHelper = require("../../helpers/gulp-helper");
 
-module.exports = class CompileJs extends Task {
+module.exports = class CompileTs extends Task {
 
   constructor(option) {
     super(option);
@@ -22,19 +22,20 @@ module.exports = class CompileJs extends Task {
 
   task(gulp) {
 
-    let tsProject = gulpTypescript.createProject(FileHelper.concatDirectory([GulpHelper.parameters.dir, "tsconfig.json"]), {
-        traceResolution: true,
-        typescript: require((this.defaultOption.typescript && this.defaultOption.typescript.bin) || "typescript") // permet de forcer la version de typescript déclarée dans le builder plutôt que celle du plugin gulp-typescript
-    });
-
-
     return () => {
+
+      let tsProject = gulpTypescript.createProject(FileHelper.concatDirectory([GulpHelper.parameters.dir, "tsconfig.json"]), {
+          traceResolution: true,
+          typescript: require((this.defaultOption.typescript && this.defaultOption.typescript.bin) || "typescript") // permet de forcer la version de typescript déclarée dans le builder plutôt que celle du plugin gulp-typescript
+      });
+
       Logger.info("Lancement de la tache " + this.name + " (Transpilation JavaScript avec TypeScript).");
       Logger.debug("option", this.defaultOption);
 
       let tsResult = gulp.src(this.defaultOption.srcFilter, {
           base: FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir])
       });
+      tsResult = tsProject.src();
       // Activation de la génération des sources maps
       if (this.defaultOption.compile && this.defaultOption.compile.activeMap) {
         tsResult = tsResult.pipe(sourcemaps.init());

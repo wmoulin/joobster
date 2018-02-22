@@ -5,7 +5,7 @@ const FileHelper = require("../../helpers/file-helper");
 const GulpHelper = require("../../helpers/gulp-helper");
 const tsLint = require("gulp-tslint");
 
-module.exports = class TestJs extends Task {
+module.exports = class TestTs extends Task {
 
   constructor(option) {
     super(option);

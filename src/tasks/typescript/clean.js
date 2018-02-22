@@ -4,7 +4,7 @@ const Logger = require("../../logger");
 const del = require("del");
 const FileHelper = require("../../helpers/file-helper");
 
-module.exports = class CompileJs extends Task {
+module.exports = class CompileTs extends Task {
 
   constructor(option) {
     super(option);

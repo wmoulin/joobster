@@ -68,7 +68,7 @@ module.exports = class CompileJs extends Task {
   
   task(gulp) {
     return (done) => {
-      Logger.info("Lancement de la tache " + this.name + " (installation).");
+      Logger.info("Lancement de la tache " + this.name + ".");
       Logger.debug("option", this.defaultOption);
 
       // copie des autres fichiers (html, json...)

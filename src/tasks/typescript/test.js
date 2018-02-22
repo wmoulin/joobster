@@ -10,7 +10,7 @@ const gulpTypescript = require("gulp-typescript");
 const replace = require("gulp-replace");
 const fs = require("fs");
 
-module.exports = class TestJs extends Task {
+module.exports = class TestTs extends Task {
 
   constructor(option) {
     super(option);

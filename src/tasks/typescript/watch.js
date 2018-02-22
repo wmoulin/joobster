@@ -5,7 +5,7 @@ const Logger = require("../../logger");
 const watch = require("gulp-watch");
 const FileHelper = require("../../helpers/file-helper");
 
-module.exports = class WatchJs extends Task {
+module.exports = class WatchTs extends Task {
 
   constructor(option) {
     super(option);

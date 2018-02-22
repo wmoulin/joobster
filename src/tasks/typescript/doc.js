@@ -6,7 +6,7 @@ const del = require("del");
 const FileHelper = require("../../helpers/file-helper");
 const jsdoc = require("gulp-jsdoc3");
 
-module.exports = class DocJs extends Task {
+module.exports = class DocTs extends Task {
 
   constructor(option) {
     super(option);

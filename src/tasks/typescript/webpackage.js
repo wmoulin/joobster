@@ -6,7 +6,7 @@ const FileHelper = require("../../helpers/file-helper");
 const webpack = require("webpack-stream");
 const merge = require("webpack-merge");
 
-module.exports = class WebpackageJs extends Task {
+module.exports = class WebpackageTs extends Task {
 
   constructor(option, moduleDesc) {
     super(option);

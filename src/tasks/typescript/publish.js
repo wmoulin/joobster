@@ -6,7 +6,7 @@ const FileHelper = require("../../helpers/file-helper");
 const jsdoc = require("gulp-jsdoc3");
 const npm = require("npm");
 
-module.exports = class PublishJs extends Task {
+module.exports = class PublishTs extends Task {
 
   constructor(option) {
     super(option);
