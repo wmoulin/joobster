@@ -12,7 +12,7 @@ const tasksLoader = require("./tasks-loader");
 commander
     .version(require("../package.json").version)
     .usage("[options] <tasks ...>")
-    .option("-l --log <level>", "log level, /^(trace|debug|info|warning|error)$/i", "error")
+    .option("-l --log <level>", "log level, /^(trace|debug|info|warning|error)$/i", "info")
     .option("-d --dir <directory>", "project directory", process.cwd())
     .option("-f --files <glob files>", "filtre des fichiers pour la tâche à lancer (syntaxe node-glob)", "")
     .parse(process.argv);
