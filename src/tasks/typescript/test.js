@@ -22,7 +22,7 @@ module.exports = class TestTs extends Task {
 
     super.updateWithParameter();
     this.defaultOption.tstFilter = FileHelper.concatDirectory([this.defaultOption.tstbase, this.defaultOption.dir, this.defaultOption.fileFilter]);
-    this.defaultOption.tstOtherFilter = [FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.tstbase, this.defaultOption.dir, "**/*"]), "!" + this.defaultOption.fileFilter];
+    this.defaultOption.tstOtherFilter = [ "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.tstbase, this.defaultOption.dir, "**/*.{ts,tsx}"]), FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.tstbase, this.defaultOption.dir, "**/*"]), "!" + this.defaultOption.fileFilter];
     this.defaultOption.distTsFilter = FileHelper.concatDirectory([this.defaultOption.outbase, this.defaultOption.outdir, "**/*.js",]);
     this.defaultOption.tmpJsFilter = FileHelper.concatDirectory([this.defaultOption.tmpDir, "**/*.js",]);
   }

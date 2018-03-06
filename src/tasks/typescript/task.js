@@ -34,7 +34,8 @@ module.exports = class Task {
       tmpDir : "tmp",
       outdirMap: "maps",
       compile: {},
-      webpack: {}
+      webpack: {},
+      packageIncludeFilters: []
     };
 
     if (option && option.compile) {

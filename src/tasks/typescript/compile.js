@@ -32,10 +32,7 @@ module.exports = class CompileTs extends Task {
       Logger.info("Lancement de la tache " + this.name + " (Transpilation JavaScript avec TypeScript).");
       Logger.debug("option", this.defaultOption);
 
-      let tsResult = gulp.src(this.defaultOption.srcFilter, {
-          base: FileHelper.concatDirectory([this.defaultOption.base, this.defaultOption.dir])
-      });
-      tsResult = tsProject.src();
+      let tsResult = tsProject.src();
       // Activation de la génération des sources maps
       if (this.defaultOption.compile && this.defaultOption.compile.activeMap) {
         tsResult = tsResult.pipe(sourcemaps.init());

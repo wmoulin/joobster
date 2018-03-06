@@ -10,7 +10,7 @@ module.exports = class PackageTs extends Task {
 
   constructor(option) {
     super(option);
-    this.taskDepends = [Task.cleanPrefixe + this.name, Task.compilePrefixe + this.name]; // compilation Babel des tests
+    this.taskDepends = [Task.cleanPrefixe + this.name, Task.compilePrefixe + this.name];
     this.name = Task.packagePrefixe + this.name;
     super.updateWithParameter();
 
@@ -18,7 +18,10 @@ module.exports = class PackageTs extends Task {
                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "*.gitignore"]),
                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "joobster.json"]),
                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "tsconfig.json"]),
-                                        "!" + this.defaultOption.fileFilter];
+                                        "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.fileFilter])];
+    option.packageIncludeFilters.forEach((includeFilter) => {
+      this.defaultOption.packageFilter.unshift(FileHelper.concatDirectory([this.defaultOption.projectDir, includeFilter]));
+    });
     this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir]);
     this.defaultOption.srcFolder = FileHelper.concatDirectory([this.defaultOption.projectDir]);
   }
