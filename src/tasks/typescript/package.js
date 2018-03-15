@@ -19,7 +19,7 @@ module.exports = class PackageTs extends Task {
                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "joobster.json"]),
                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, "tsconfig.json"]),
                                         "!" + FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.base, this.defaultOption.fileFilter])];
-    option.packageIncludeFilters.forEach((includeFilter) => {
+    option.packageIncludeFilters && option.packageIncludeFilters.forEach((includeFilter) => {
       this.defaultOption.packageFilter.unshift(FileHelper.concatDirectory([this.defaultOption.projectDir, includeFilter]));
     });
     this.defaultOption.distFolder = FileHelper.concatDirectory([this.defaultOption.projectDir, this.defaultOption.outdir]);
