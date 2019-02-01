@@ -45,7 +45,7 @@
     "gulp-watch": "4.3.5",
     "lodash": "4.11.1",
     "merge2": "^1.1.0",
-    "npm": "3.8.8",
+    "npm": "6.7.0",
     "remap-istanbul": "^0.9.5",
     "run-sequence": "1.1.5",
     "tslint": "^3",
