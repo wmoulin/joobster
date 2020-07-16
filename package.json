@@ -44,7 +44,7 @@
     "gulp-util": "3.0.7",
     "gulp-watch": "4.3.5",
     "gulp-watch": "5.0.1",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "merge2": "^1.1.0",
     "npm": "6.7.0",
     "remap-istanbul": "^0.9.5",
